@@ -25,7 +25,7 @@ def log_interaction(query, response):
     conn.close()
 
 # --- INITIALIZE BRAIN ---
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = st.secrets["GEMINI_API_KEY"]
 brain = CurioBrain(api_key)
 
 # --- SESSION STATE ---
