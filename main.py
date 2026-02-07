@@ -1,10 +1,11 @@
 import streamlit as st
-import sqlite3
 from datetime import datetime
 from brain import CurioBrain
+from utils import log_interaction, init_db
 
-# --- UI SETUP ---
 st.set_page_config(page_title="Curio: Character Forge", page_icon="🎭", layout="wide")
+
+init_db()
 
 st.markdown("""
     <style>
@@ -15,20 +16,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- DATABASE LOGIC ---
-def log_interaction(query, response):
-    conn = sqlite3.connect('curio_memory.db')
-    c = conn.cursor()
-    c.execute('CREATE TABLE IF NOT EXISTS logs (ts TEXT, query TEXT, response TEXT)')
-    c.execute('INSERT INTO logs VALUES (?,?,?)', (datetime.now().isoformat(), query, response))
-    conn.commit()
-    conn.close()
-
-# --- INITIALIZE BRAIN ---
 api_key = st.secrets["GEMINI_API_KEY"]
 brain = CurioBrain(api_key)
 
-# --- SESSION STATE ---
 if "char_active" not in st.session_state:
     st.session_state.char_active = False
 if "char_data" not in st.session_state:
@@ -36,7 +26,6 @@ if "char_data" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# --- SIDEBAR: CHARACTER FORGE ---
 with st.sidebar:
     st.title("🎭 Character Forge")
     
@@ -53,7 +42,7 @@ with st.sidebar:
                     "img": img_data
                 }
                 st.session_state.char_active = True
-                st.session_state.messages = [] # Reset chat for new character
+                st.session_state.messages = []
                 st.success(f"{char_name} has arrived.")
 
     if st.session_state.char_active:
@@ -73,15 +62,12 @@ with st.sidebar:
     contrast_mode = st.toggle("🥊 Contrast Mode", value=False)
     depth = st.radio("Reasoning", ["Surface", "Standard", "Deep"])
 
-# --- MAIN APP ---
 st.title(f"🧠 Curio: {st.session_state.char_data['name'] if st.session_state.char_active else 'Neural Sandbox'}")
 
-# Display chat history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# User Input
 if prompt := st.chat_input(f"Talk to {st.session_state.char_data['name']}..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):

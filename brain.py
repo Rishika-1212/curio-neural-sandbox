@@ -12,7 +12,6 @@ class CurioBrain:
         self.api_key = api_key
 
     def generate_image(self, prompt):
-        """Generates an avatar for your custom AI character using Imagen 4.0."""
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.image_model}:predict?key={self.api_key}"
         payload = {
             "instances": [{"prompt": f"A high-quality, professional avatar portrait of {prompt}. Cinematic lighting, detailed, centered."},],
@@ -24,15 +23,13 @@ class CurioBrain:
             if "predictions" in result:
                 b64_data = result["predictions"][0]["bytesBase64Encoded"]
                 return f"data:image/png;base64,{b64_data}"
-        except Exception as e:
-            print(f"Image Gen Error: {e}")
+        except Exception:
+            pass
         return None
 
     def generate_response(self, query, persona, depth, contrast_mode=False, custom_instructions=None):
-        # Base instructions
         system_instructions = f"You are {persona}. Depth: {depth}."
         
-        # Inject Custom Character Logic
         if custom_instructions:
             system_instructions = f"Act as this specific character: {custom_instructions}. Never break character. Use their vocabulary and style."
 
@@ -48,7 +45,7 @@ class CurioBrain:
                 config=types.GenerateContentConfig(
                     system_instruction=system_instructions,
                     tools=[search_tool],
-                    temperature=0.8 # Slightly higher for creative characters
+                    temperature=0.8
                 )
             )
             
