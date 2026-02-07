@@ -1,93 +1,99 @@
-Curio: Neural Sandbox
+🧠 Curio: Neural Sandbox
+
+Don't just search the web. Spar with it.
 
 Curio is a modular AI reasoning environment powered by the Gemini 3 API. It is designed to move beyond traditional "helpful assistant" paradigms by providing a sandbox for stress-testing information through live search grounding and multimodal persona synthesis.
 
-Project Overview
+<img width="1919" height="864" alt="image" src="https://github.com/user-attachments/assets/0d00f0cd-f64f-48c8-90de-a1cedeb912be" />
 
-Curio provides a dual-interface for interacting with LLMs:
 
-Neural Sandbox: A high-fidelity research environment grounded in real-time Google Search data.
+🚀 The Core Philosophy
 
-Character Forge: A multimodal tool that combines Imagen 4.0 with Gemini 3 to create persistent, lore-accurate AI entities.
+Traditional AI assistants are programmed to be agreeable "yes-men." Curio breaks that cycle. By leveraging Gemini 3’s Deep Reasoning, Curio acts as an intellectual sparring partner, forcing users to defend their logic against a grounded, well-researched skeptic.
 
-The core innovation of the project is Contrast Mode, which utilizes Gemini's reasoning capabilities to act as an intellectual skeptic, challenging user assumptions and identifying logical fallacies in real-time.
+🛠 Key Technical Features
 
-Core Features
+🎭 The Character Forge
 
-1. Character Forge
+[ Multimodal Synthesis ] [ Imagen 4.0 ] Forge a persistent "AI Soul" with a cinematic identity.
 
-The Forge allows users to instantiate specific "AI Souls."
+Visual Identity: Generates high-fidelity avatar portraits using Imagen 4.0.
 
-Visual Synthesis: Uses Imagen 4.0 to generate cinematic avatar portraits based on character descriptions.
+Persona Maintenance: Uses advanced instruction following to ensure entities (like Tony Stark or Socrates) maintain consistent vocabulary and style without breaking character.
 
-Persona Maintenance: Leverages Gemini 3's sophisticated instruction following to ensure characters maintain consistent vocabulary, tone, and logical frameworks.
+<img width="1919" height="861" alt="image" src="https://github.com/user-attachments/assets/34df5a9d-32e8-45df-ad46-d65388acecfa" />
 
-2. Contrast Mode & Reasoning Depth
 
-Users can control the intensity of the AI's skepticism through a "Reasoning Depth" selector:
+🥊 Contrast Mode
 
-Surface: Quick, direct responses.
+[ Reasoning Depth ] [ Chain-of-Thought ] A toggle that transforms the assistant into a rigorous skeptic.
 
-Standard: Balanced reasoning.
+Logic: Mathematically targets the "antithesis" of user queries to break confirmation bias.
 
-Deep: Comprehensive chain-of-thought analysis.
+Precision: Tightens the model's "Focus Level" (Temperature) to ~0.2 for hyper-logical, low-hallucination responses.
 
-When Contrast Mode is active, the system prompt is reconfigured to prioritize counter-perspectives. The model's "Focus Level" (Temperature) is tightened to approximately 0.2 to ensure high logical consistency, mathematically nudging the output toward the antithesis of the user's initial query.
+<img width="1919" height="854" alt="image" src="https://github.com/user-attachments/assets/dfe668d3-6f76-4481-a789-19a93660ca78" />
 
-3. Native Grounding
 
-Curio bypasses traditional Retrieval-Augmented Generation (RAG) by using Gemini 3's native Google Search grounding. This ensures that responses are synthesized from live, cited web sources without the latency of external vector databases.
+🌐 Native Grounding
 
-Technical Stack
+[ Real-Time Data ] [ Zero-Latency RAG ] Bypasses manual RAG pipelines by using Gemini 3's native Google Search tools.
 
-Language: Python 3.9+
+Live Verification: Synthesizes information from current web sources with citations.
 
-Frontend: Streamlit
+Contextual Accuracy: Ensures even obscure or brand-new topics are answered with factual precision.
 
-API Models: Gemini 3 (2.5 Flash Preview), Imagen 4.0
+<img width="1918" height="862" alt="image" src="https://github.com/user-attachments/assets/89779d55-b6c1-40b8-b1cf-1ee878ad6bc2" />
 
-Database: SQLite (local persistence for interaction logs)
 
-Libraries: google-genai, python-dotenv, requests
+🧪 The "Sandbox" Logic
 
-Repository Structure
+To ensure the sparring is rigorous, Curio modulates how the AI chooses its words based on your Reasoning Depth setting:
 
-main.py: The primary UI and state management layer.
+The Probability Calculation:
+Probability Score = (Word Score / Focus Level) / (Sum of all Word Scores)
 
-brain.py: Orchestration of Gemini 3 reasoning, grounding, and Imagen 4.0 generation.
+In Deep Reasoning mode, the "Focus Level" (Temperature) is minimized. Curio then nudges the model to select the word most similar to "NOT [Your Query]", forcing a counter-perspective that is still logically sound and grounded in fact.
 
-utils.py: Database operations, persistent logging, and character prompt engineering.
+🏗 Repository Structure
 
-requirements.txt: System dependencies.
+main.py - Primary UI and Session State management.
 
-curio_memory.db: Local SQLite database (created on first run).
+brain.py - Orchestration of Gemini 3 reasoning, grounding, and Imagen 4.0.
 
-Installation
+utils.py - SQLite persistence, logging, and persona engineering.
 
-Clone the repository:
+requirements.txt - System dependencies.
+
+curio_memory.db - Local interaction logs (auto-generated).
+
+⚡ Quick Start
+
+1. Clone & Install
 
 git clone [https://github.com/Rishika-1212/curio-neural-sandbox.git](https://github.com/Rishika-1212/curio-neural-sandbox.git)
 cd curio-neural-sandbox
-
-
-Install dependencies:
-
 pip install -r requirements.txt
 
 
-Configure API Secrets:
-Create a .env file in the root directory or configure your environment variables:
+2. Configure Secrets
+
+Create a .env file or set your environment variable:
 
 GEMINI_API_KEY=your_google_ai_studio_key
 
 
-Launch the Sandbox:
+3. Launch
 
 streamlit run main.py
 
 
-Security Note
+🔒 Security & Deployment
 
-This project uses a .gitignore to prevent the upload of .env files and local curio_memory.db files. Ensure your API keys are managed through Streamlit Secrets or Environment Variables when deploying to the cloud.
+This project is built with security-first principles:
 
-Developed for the Gemini 3 API Competition.
+Secrets: Configured for st.secrets compatibility on Streamlit Cloud.
+
+Ignore List: Pre-configured .gitignore prevents leaks of .env or local .db files.
+
+Developed for the Gemini 3 API Competition
