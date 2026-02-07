@@ -1,8 +1,8 @@
 import os
 import requests
-import base64
 from google import genai
 from google.genai import types
+from utils import build_character_prompt
 
 class CurioBrain:
     def __init__(self, api_key):
@@ -27,14 +27,14 @@ class CurioBrain:
             pass
         return None
 
-    def generate_response(self, query, persona, depth, contrast_mode=False, custom_instructions=None):
-        system_instructions = f"You are {persona}. Depth: {depth}."
-        
+    def generate_response(self, query, persona, reasoning, contrast_mode=False, custom_instructions=None):
         if custom_instructions:
-            system_instructions = f"Act as this specific character: {custom_instructions}. Never break character. Use their vocabulary and style."
+            system_instructions = build_character_prompt(persona, custom_instructions)
+        else:
+            system_instructions = f"You are {persona}. Reasoning Depth: {reasoning}."
 
         if contrast_mode:
-            system_instructions += " Additionally, act as a skeptic and provide counter-perspectives."
+            system_instructions += " Act as a skeptic. Present consensus then provide a counter-perspective."
 
         search_tool = types.Tool(google_search=types.GoogleSearch())
 
@@ -45,7 +45,7 @@ class CurioBrain:
                 config=types.GenerateContentConfig(
                     system_instruction=system_instructions,
                     tools=[search_tool],
-                    temperature=0.8
+                    temperature=0.3 if reasoning == "Deep" else 0.7
                 )
             )
             
